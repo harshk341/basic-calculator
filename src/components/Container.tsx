@@ -11,11 +11,21 @@ const Container = () => {
     lastAns,
     evaluate,
     error,
+    ans,
+    result,
+    showAns,
   } = useCalculatorContext();
   return (
     <>
       <div className="w-full max-w-[550px] grid grid-cols-5 gap-4">
-        <Input classes="col-span-5" value={expression} error={error} />
+        <Input
+          classes="col-span-5"
+          value={expression}
+          error={error}
+          ans={ans}
+          result={result}
+          showAns={showAns}
+        />
         <Buttons
           value="AC"
           onClick={() => {
@@ -25,7 +35,11 @@ const Container = () => {
         <Buttons
           value="CE"
           onClick={() => {
-            clearEntry();
+            if (result || error) {
+              clearAll();
+            } else {
+              clearEntry();
+            }
           }}
         />
         <Buttons
@@ -47,7 +61,12 @@ const Container = () => {
           }}
         />
 
-        <Buttons value="√" onClick={() => {}} />
+        <Buttons
+          value="√"
+          onClick={() => {
+            addInput("sqrt(");
+          }}
+        />
         <Buttons
           value="1"
           onClick={() => {
@@ -79,7 +98,9 @@ const Container = () => {
               x<sup>y</sup>
             </>
           }
-          onClick={() => {}}
+          onClick={() => {
+            addInput("^");
+          }}
         />
         <Buttons
           value="4"
@@ -106,7 +127,12 @@ const Container = () => {
           }}
         />
 
-        <Buttons value="x!" onClick={() => {}} />
+        <Buttons
+          value="x!"
+          onClick={() => {
+            addInput("!");
+          }}
+        />
         <Buttons
           value="7"
           onClick={() => {
@@ -138,7 +164,12 @@ const Container = () => {
             lastAns();
           }}
         />
-        <Buttons value="%" onClick={() => {}} />
+        <Buttons
+          value="%"
+          onClick={() => {
+            addInput("%");
+          }}
+        />
         <Buttons
           value="0"
           onClick={() => {

@@ -1,10 +1,15 @@
 import * as React from "react";
+import { isOperator } from "src/helpers";
+import evaluateExpression from "src/utility/evaluate";
+import { formatExpression } from "src/utility/validate";
 
 type initialCalculatorType = {
   expression: string;
   result: number | null;
   error: string | null;
   ans: number | null;
+  isNewInput: boolean;
+  showAns: boolean;
 };
 
 type CalculatorContextType = initialCalculatorType & {
@@ -23,9 +28,9 @@ enum Types {
   USE_ANS = "USE_ANS",
 }
 
-type PayloadActionType<T = string> = {
+type PayloadActionType = {
   type: Types;
-  payload?: T;
+  payload?: string | Partial<initialCalculatorType>;
 };
 
 const initialCalculatorState: initialCalculatorType = {
@@ -33,6 +38,8 @@ const initialCalculatorState: initialCalculatorType = {
   result: null,
   error: null,
   ans: null,
+  isNewInput: true,
+  showAns: false,
 };
 
 export const CalculatorContext = React.createContext<CalculatorContextType>({
@@ -49,7 +56,22 @@ const handler = {
     state: initialCalculatorType,
     action: PayloadActionType
   ): initialCalculatorType => {
-    return { ...state, expression: state.expression + (action.payload || "") };
+    if (state.isNewInput) {
+      return {
+        ...state,
+        expression: formatExpression(action.payload as string),
+        isNewInput: false,
+        showAns: true,
+        result: null,
+      };
+    }
+    return {
+      ...state,
+      expression: formatExpression(state.expression + action.payload),
+      result: null,
+      error: null,
+      showAns: true,
+    };
   },
   CLEAR_ALL: (): initialCalculatorType => {
     return { ...initialCalculatorState };
@@ -59,18 +81,30 @@ const handler = {
   },
   EVALUATE: (state: initialCalculatorType): initialCalculatorType => {
     try {
-      // to be implemented
-
-      return { ...state };
+      const result = evaluateExpression(state.expression || "0");
+      return {
+        ...state,
+        result,
+        ans: result,
+        error: null,
+        showAns: false,
+        isNewInput: true,
+      };
     } catch {
-      return { ...state, error: "Invalid Expression" };
+      return { ...state, error: "Error", showAns: false };
     }
   },
   USE_ANS: (state: initialCalculatorType): initialCalculatorType => {
     return {
       ...state,
       expression:
-        state.expression + (state.ans !== null ? state.ans.toString() : ""),
+        state.expression + (state.ans !== null ? state.ans.toString() : "0"),
+    };
+  },
+  CLEAR_RESULT: (state: initialCalculatorType): initialCalculatorType => {
+    return {
+      ...state,
+      result: null,
     };
   },
 };
@@ -88,6 +122,12 @@ export const CalculatorProvider: React.FC<{
   const [state, dispatch] = React.useReducer(reducer, initialCalculatorState);
 
   const addInput = (data: string) => {
+    if (state.result !== null) {
+      if (isOperator(data)) {
+        dispatch({ type: Types.ADD_INPUT, payload: state.result + data });
+        return;
+      }
+    }
     dispatch({ type: Types.ADD_INPUT, payload: data });
   };
 
