@@ -1,54 +1,65 @@
-# React + TypeScript + Vite
+# Basic Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A basic calculator inspired by Google Calculator, built with **React** and **TypeScript**. This project supports basic arithmetic, advanced operations, and an `Ans` key to reuse previous results. Perfect for learning state management, regex validation, and modern React practices.
 
-Currently, two official plugins are available:
+![Calculator Screenshot](https://github.com/user-attachments/assets/76c72bc4-b37b-4128-8c83-53e250d9984c)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Basic Operations**: Addition (`+`), subtraction (`-`), multiplication (`*`), division (`/`).
+- **Advanced Operations**: Modulus (`%`), exponentiation (`^`), square root (`√`), factorial (`!`).
+- **Error Handling**: Displays error messages for invalid inputs.
+- **`Ans` Key**: Reuses the previous result in new calculations.
+- **Regex Validation**: Ensures only valid mathematical expressions are evaluated.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React** 
+- **TypeScript** 
+- **React Context API**
+- **Tailwind CSS**
+- **Regular Expressions**
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/harshk341/basic-calculator.git
+
+2. Navigate to the project directory:
+   ```bash
+   cd basic-calculator
+
+3. Install dependencies:
+   ```bash
+   yarn install
+   ```
+   or
+   
+   ```bash
+   npm install
+
+4. Start the development server:
+   ```bash
+   yarn dev
+   ```
+   or
+   
+   ```bash
+   npm run dev
+
+5. Open your browser and visit `http://localhost:5173`
+   
